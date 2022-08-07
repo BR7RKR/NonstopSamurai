@@ -5,10 +5,11 @@ using UnityEngine;
 using UnityEngine.WSA;
 using static UnityEngine.ForceMode;
 
+[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class Jump : MonoBehaviour
 {
-    [Header("Settings")] 
+    [Header("Main Settings")] 
     [SerializeField] private bool _isPlayerControlled = false;
     
     [Header("Jump Settings")]
@@ -19,15 +20,15 @@ public class Jump : MonoBehaviour
     private Animator _animator;
     private int _jumpsCounter;
     
-    private static readonly int IsJumping = Animator.StringToHash("isJumping");
-    private static readonly int IsLanding = Animator.StringToHash("isForceLanding");
+    private readonly int _isJumping = Animator.StringToHash("isJumping");
+    private readonly int _isLanding = Animator.StringToHash("isForceLanding");
     private const int _MAXJUMPS = 1;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _rb.gravityScale *= _gravityMultiplier;
-        _animator = _isPlayerControlled ? GetComponent<Animator>() : null;
+        _animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -41,8 +42,8 @@ public class Jump : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Floor"))
         {
-            _animator.SetBool(IsLanding, false);
-            _animator.SetBool(IsJumping, false);
+            _animator.SetBool(_isLanding, false);
+            _animator.SetBool(_isJumping, false);
             ResetJumpsCounter();
         }
     }
@@ -55,7 +56,7 @@ public class Jump : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space) && _jumpsCounter < _MAXJUMPS)
             {
                 _rb.AddForce(Vector2.up.normalized * _jumpForce);
-                _animator.SetBool(IsJumping, true);
+                _animator.SetBool(_isJumping, true);
                 _jumpsCounter++;
             }
         }
@@ -76,8 +77,8 @@ public class Jump : MonoBehaviour
                 if (_jumpsCounter != 0)
                 {
                     _rb.AddForce(Vector2.down.normalized * _jumpForce);
-                    _animator.SetBool(IsLanding, true);
-                    _animator.SetBool(IsJumping, false);
+                    _animator.SetBool(_isLanding, true);
+                    _animator.SetBool(_isJumping, false);
                 }
             }
         }
