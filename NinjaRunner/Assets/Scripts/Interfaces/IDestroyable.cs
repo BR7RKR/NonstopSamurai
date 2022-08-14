@@ -2,6 +2,6 @@
 {
     public interface IDestroyable
     {
-        public void Destroy();
+        public void RecieveDamage(float damage);
     }
 }

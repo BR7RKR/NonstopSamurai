@@ -24,7 +24,7 @@ public class Jump : MonoBehaviour
     private readonly int _isLanding = Animator.StringToHash("isForceLanding");
     private const int _MAXJUMPS = 1;
 
-    void Start()
+    private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _rb.gravityScale *= _gravityMultiplier;
@@ -32,7 +32,7 @@ public class Jump : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         MakeAJump();
         Land();

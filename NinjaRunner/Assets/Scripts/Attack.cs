@@ -13,7 +13,7 @@ public class Attack : MonoBehaviour, IDamagable
     [SerializeField] private bool _isPlayerControlled;
 
     [Header("Attack Settings")] 
-    private float _damage;
+    private float _damage = 1;
     public float Damage
     {
         get => _damage;
@@ -35,12 +35,12 @@ public class Attack : MonoBehaviour, IDamagable
     private readonly int _attackTrig = Animator.StringToHash("attack");
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _animator = GetComponent<Animator>();
     }
 
-    void Update()
+    private void Update()
     {
         DealDamage();
     }
@@ -70,13 +70,9 @@ public class Attack : MonoBehaviour, IDamagable
         {
             foreach (var col in cols)
             {
-                if (col.gameObject.CompareTag("Enemy"))
+                if (col.gameObject.CompareTag("Enemy") || col.gameObject.CompareTag("Civilian"))
                 {
-                    col.gameObject.GetComponent<Enemy>().Destroy();
-                }
-                else if(col.gameObject.CompareTag("Civilian"))
-                {
-                    col.gameObject.GetComponent<Civilian>().Destroy();
+                    col.gameObject.GetComponent<Health>().RecieveDamage(_damage);
                 }
             }
         }

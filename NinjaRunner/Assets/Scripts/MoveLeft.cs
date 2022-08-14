@@ -7,15 +7,20 @@ public class MoveLeft : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float velocity = 30;
     
-    void Start()
+    private GameOverManager _gameOverManager;
+    
+    private void Start()
     {
-        
+        _gameOverManager = FindObjectOfType<GameOverManager>();
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        transform.Translate(Vector2.left.normalized * Time.deltaTime * velocity);
+        if (!_gameOverManager.IsGameOver)
+        {
+            transform.Translate(Vector2.left.normalized * Time.deltaTime * velocity);
+        }
     }
     
 }
