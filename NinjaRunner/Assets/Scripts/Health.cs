@@ -53,7 +53,7 @@ public class Health : MonoBehaviour, IDestroyable
         }
     }
 
-    public void RecieveDamage(float damage)
+    public void TakeDamage(float damage)
     {
         _hp -= damage;
     }

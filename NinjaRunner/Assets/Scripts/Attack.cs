@@ -72,7 +72,7 @@ public class Attack : MonoBehaviour, IDamagable
             {
                 if (col.gameObject.CompareTag("Enemy") || col.gameObject.CompareTag("Civilian"))
                 {
-                    col.gameObject.GetComponent<Health>().RecieveDamage(_damage);
+                    col.gameObject.GetComponent<Health>().TakeDamage(_damage);
                 }
             }
         }

@@ -8,6 +8,8 @@ TagManager:
   - Civilian
   - Back
   - Enemy
+  - Coin
+  - Obstacle
   layers:
   - Default
   - TransparentFX
