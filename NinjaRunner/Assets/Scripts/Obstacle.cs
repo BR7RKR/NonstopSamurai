@@ -10,7 +10,8 @@ public class Obstacle : MonoBehaviour, IDamagable
     [SerializeField] private float _damage = 1;
 
     private Health _player;
-    private void OnCollisionEnter2D(Collision2D col)
+
+    private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.CompareTag("Player"))
         {

@@ -46,15 +46,20 @@ public class Health : MonoBehaviour, IDestroyable
     {
         if (_hp <= 0 && !_isInvincible)
         {
-            if (_isPlayerControlled) _gameOverManager.IsGameOver = true;
             int delay = 0;
+            float lastAnimationLength = 0;
+            if (_isPlayerControlled)
+            {
+                _gameOverManager.IsGameOver = true;
+                lastAnimationLength = _animator.GetCurrentAnimatorStateInfo(0).length;
+            }
             _animator.SetTrigger(_death);
-            Destroy (gameObject, _animator.GetCurrentAnimatorStateInfo(0).length + delay);
+            Destroy (gameObject, lastAnimationLength + delay);
         }
     }
 
     public void TakeDamage(float damage)
     {
-        _hp -= damage;
+        if (!_isInvincible) _hp -= damage;
     }
 }

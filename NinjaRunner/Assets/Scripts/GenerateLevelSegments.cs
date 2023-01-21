@@ -6,11 +6,11 @@ using UnityEngine;
 public class GenerateLevelSegments : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private List<Transform> _segments;
+    [SerializeField] private Transform[] _segments;
     [SerializeField] private Transform _currentSegment;
 
-    private float _spawnPosX = 22.74f;
-    private float _spawnNextPosX = -4.93f;
+    private const float SpawnPosX = 22.68f;
+    private const float SpawnNextPosX = -4.93f;
     private float _deletePosX;
     private GameOverManager _gameOverManager;
     private void Start()
@@ -25,10 +25,10 @@ public class GenerateLevelSegments : MonoBehaviour
 
     private void Spawn()
     {
-        if (_currentSegment.transform.position.x <= _spawnNextPosX && !_gameOverManager.IsGameOver)
+        if (_currentSegment.transform.position.x <= SpawnNextPosX && !_gameOverManager.IsGameOver)
         {
-            var spawnPos = new Vector3(_spawnPosX, _currentSegment.transform.position.y, 1);
-            _currentSegment = Instantiate(_segments[Random.Range(0, _segments.Count)], spawnPos, Quaternion.identity);
+            var spawnPos = new Vector3(SpawnPosX, _currentSegment.transform.position.y, 1);
+            _currentSegment = Instantiate(_segments[Random.Range(0, _segments.Length)], spawnPos, Quaternion.identity);
         }
     }
 }

@@ -1,10 +1,13 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Interfaces;
 using Unity.VisualScripting;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using Utils;
+using Timer = Utils.Timer;
 
 [RequireComponent(typeof(Animator))]
 public class Attack : MonoBehaviour, IDamagable
@@ -19,6 +22,8 @@ public class Attack : MonoBehaviour, IDamagable
         get => _damage;
         set => _damage = value < 0 ? _damage : value;
     }
+    [Tooltip("Delay only for enemy attack")]
+    [SerializeField]private float _attackDelay;
     
     [Header("Attack Circle Settings")]
     [SerializeField]
@@ -56,7 +61,12 @@ public class Attack : MonoBehaviour, IDamagable
                 _animator.SetTrigger(_attackTrig);
             }
         }
-        else Debug.LogError("No behaviour created!");
+        else
+        {
+            KilledList = Physics2D.OverlapCircleAll(transform.position, _radius);
+            KillInZone(KilledList);
+            //TODO: Add attack animation trigger
+        }
     }
 
     private void OnDrawGizmos()
@@ -76,6 +86,15 @@ public class Attack : MonoBehaviour, IDamagable
                 }
             }
         }
-        else Debug.LogError("No behaviour created!");
+        else
+        {
+            foreach (var col in cols)
+            {
+                if (col.gameObject.CompareTag("Player"))
+                    if (Timer.IsTimeOver(ref _attackDelay))
+                        col.gameObject.GetComponent<Health>().TakeDamage(_damage);
+            }
+        }
     }
+    
 }

@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
     [Header("Settings")]
     [Tooltip("Input ItemsCollect script here")]
     [SerializeField] private ItemCollect _coins;
-    [Tooltip("Input Score Text here")]
+    [Tooltip("Input ScoreText here")]
     [SerializeField] private TextMeshProUGUI _scoreBoard;
 
     private int _currentCoins;
